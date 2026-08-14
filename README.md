@@ -1,1 +1,1 @@
-# vue_learning
+**Vue.js with Typescript**
