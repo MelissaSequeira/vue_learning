@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref ,computed} from 'vue'
 interface JobApplication {
   jobid: string,
   company: string,
@@ -8,8 +8,48 @@ interface JobApplication {
   salary: string,
   status: string
 }
-const applications=ref<JobApplication[]>([])
-
+const applications = ref<JobApplication[]>([
+  {
+    jobid: "JOB-101",
+    company: "JP Morgan Chase",
+    role: "Software Engineer I",
+    location: "Mumbai",
+    salary: "7 LPA",
+    status: "Applied"
+  },
+  {
+    jobid: "JOB-102",
+    company: "TCS",
+    role: "Software Developer",
+    location: "Pune",
+    salary: "6 LPA",
+    status: "Accepted"
+  },
+  {
+    jobid: "JOB-103",
+    company: "Infosys",
+    role: "Frontend Developer",
+    location: "Bengaluru",
+    salary: "5.5 LPA",
+    status: "Rejected"
+  },
+  {
+    jobid: "JOB-104",
+    company: "Accenture",
+    role: "Associate Software Engineer",
+    location: "Mumbai",
+    salary: "6.5 LPA",
+    status: "Applied"
+  },
+  {
+    jobid: "JOB-105",
+    company: "Deloitte",
+    role: "Software Engineer",
+    location: "Hyderabad",
+    salary: "8 LPA",
+    status: "Accepted"
+  }
+])
 const jobid=ref<string>("");
 const company=ref<string>("");
 const role=ref<string>("");
@@ -34,6 +74,32 @@ const submitForm=()=>{
   salary.value = ""
   status.value = ""
 }
+const deleteApplication=(jobid:string)=>{
+applications.value=applications.value.filter(
+  application=>application.jobid!==jobid
+)
+}
+
+const totalApplication=computed(()=>{
+  return applications.value.length;
+})
+const appliedApplication=computed(()=>{
+  return applications.value.filter(
+    application=>application.status==="Applied"
+  ).length;
+})
+const acceptedApplication=computed(()=>{
+  return applications.value.filter(
+    application=>application.status==="Accepted"
+  ).length;
+})
+const rejectedApplication=computed(()=>{
+  return applications.value.filter(
+    application=>application.status==="Rejected"
+  ).length;
+})
+
+
 </script>
 
 <template>
@@ -41,6 +107,12 @@ const submitForm=()=>{
     <h1>JobTrack</h1>
     <p>Your personal job application manager</p>
     <p>Jobs applied:</p>
+    <div>
+      <p>Total Jobs Applied : {{totalApplication}}</p>
+      <p>Jobs Applied : {{appliedApplication}}</p>
+      <p>Accepted : {{acceptedApplication}}</p>
+      <p>Rejected: {{rejectedApplication}}</p>
+    </div>
     <table border="1">
     <tr>
     <th>Job Id no.</th>
@@ -49,6 +121,7 @@ const submitForm=()=>{
     <th>Location</th>
     <th>Salary</th>
     <th>Status</th>
+    <th>Action</th>
     </tr>
     <tr v-for="application in applications" :key="application.jobid">
     <td>{{application.jobid}}</td>
@@ -57,8 +130,12 @@ const submitForm=()=>{
     <td>{{application.location}}</td>
     <td>{{application.salary}}</td>
     <td>{{application.status}}</td>
+    <td>
+      <button @click="deleteApplication(application.jobid)">delete</button>
+    </td>
     </tr>
     </table>
+
     <form @submit.prevent="submitForm">
   <p>
     JobId:
