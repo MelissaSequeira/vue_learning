@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
-interface JobApplication {
-  jobid: string
-  company: string
-  role: string
-  location: string
-  salary: string
-  status: string
-}
+import type { JobApplication } from '../App.vue'
 
 const jobid = ref("")
 const company = ref("")

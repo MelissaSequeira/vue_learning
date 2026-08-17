@@ -1,13 +1,6 @@
 <script setup lang="ts">
+import type { JobApplication } from '../App.vue'
 
-interface JobApplication {
-  jobid: string
-  company: string
-  role: string
-  location: string
-  salary: string
-  status: string
-}
 
 defineProps<{
   applications: JobApplication[]
