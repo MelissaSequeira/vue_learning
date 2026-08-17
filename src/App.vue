@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import JobForm from './components/JobForm.vue'
 import JobTable from './components/JobTable.vue'
+import Stats from './components/Stats.vue'
 
 export interface JobApplication {
   jobid: string
@@ -94,14 +95,12 @@ const deleteApplication = (jobid: string) => {
     <h1>JobTrack</h1>
     <p>Your personal job application manager</p>
 
-    <h3>Application Statistics</h3>
-
-    <div>
-      <p>Total Jobs Applied: {{ totalApplication }}</p>
-      <p>Jobs Applied: {{ appliedApplication }}</p>
-      <p>Accepted: {{ acceptedApplication }}</p>
-      <p>Rejected: {{ rejectedApplication }}</p>
-    </div>
+    <Stats
+    :total="totalApplication"
+    :applied="appliedApplication"
+    :accepted="acceptedApplication"
+    :rejected="rejectedApplication"
+    />
 
     <JobTable
       :applications="applications"
