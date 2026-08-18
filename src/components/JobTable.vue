@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { JobApplication } from '../App.vue'
 
-
+//app se idhar
 defineProps<{
   applications: JobApplication[]
 }>()
 
+//idhar se app ko
 const emit = defineEmits<{
   delete: [jobid: string]
+  edit : [jobid:string]
 }>()
 
 </script>
@@ -48,6 +50,11 @@ const emit = defineEmits<{
           @click="emit('delete', application.jobid)"
         >
           Delete
+        </button>
+        <button
+          @click="emit('edit', application.jobid)"
+        >
+          Edit
         </button>
       </td>
 

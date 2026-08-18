@@ -2,12 +2,16 @@
 import { ref } from 'vue'
 import type { JobApplication } from '../App.vue'
 
-const jobid = ref("")
-const company = ref("")
-const role = ref("")
-const location = ref("")
-const salary = ref("")
-const status = ref("")
+const props = defineProps<{
+  editJob?: JobApplication | null
+}>()
+
+const jobid = ref(props.editJob?.jobid || "")
+const company = ref(props.editJob?.company || "")
+const role = ref(props.editJob?.role || "")
+const location = ref(props.editJob?.location || "")
+const salary = ref(props.editJob?.salary || "")
+const status = ref(props.editJob?.status || "")
 
 const emit = defineEmits<{
   'submit-application': [application: JobApplication]
@@ -15,23 +19,24 @@ const emit = defineEmits<{
 
 const submitForm = () => {
 
-  const newApplication: JobApplication = {
-    jobid: jobid.value,
-    company: company.value,
-    role: role.value,
-    location: location.value,
-    salary: salary.value,
-    status: status.value
-  }
+    const newApplication: JobApplication = {
+      jobid: jobid.value,
+      company: company.value,
+      role: role.value,
+      location: location.value,
+      salary: salary.value,
+      status: status.value
+    }
 
-  emit('submit-application', newApplication)
+    emit('submit-application', newApplication)
 
-  jobid.value = ""
-  company.value = ""
-  role.value = ""
-  location.value = ""
-  salary.value = ""
-  status.value = ""
+    jobid.value = ""
+    company.value = ""
+    role.value = ""
+    location.value = ""
+    salary.value = ""
+    status.value = ""
+  
 }
 </script>
 

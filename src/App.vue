@@ -79,7 +79,17 @@ const rejectedApplication = computed(() => {
 })
 
 const submitForm = (newApplication: JobApplication) => {
-  applications.value.push(newApplication)
+  if (editJob.value) {
+    editJob.value.company = newApplication.company
+    editJob.value.role = newApplication.role
+    editJob.value.location = newApplication.location
+    editJob.value.salary = newApplication.salary
+    editJob.value.status = newApplication.status
+
+    editJob.value = null
+  } else {
+    applications.value.push(newApplication)
+  }
 }
 
 const deleteApplication = (jobid: string) => {
@@ -87,6 +97,17 @@ const deleteApplication = (jobid: string) => {
     application => application.jobid !== jobid
   )
 }
+const editJob=ref<JobApplication|null>(null)
+
+const editApplication = (jobid: string) => {
+const editApp=applications.value.find(
+  application=>application.jobid===jobid
+)
+if(editApp){
+  editJob.value=editApp
+}
+}
+
 </script>
 
 <template>
@@ -105,9 +126,12 @@ const deleteApplication = (jobid: string) => {
     <JobTable
       :applications="applications"
       @delete="deleteApplication"
+      @edit="editApplication"
     />
 
     <JobForm
+    :key="editJob?.jobid || 'new'"
+    :editJob="editJob"
       @submit-application="submitForm"
     />
 
